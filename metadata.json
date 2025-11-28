@@ -1,0 +1,5 @@
+{
+  "name": "DevFest Google Quiz",
+  "description": "Interactive quiz about Google Developer Tools with real-time ranking and tier classification.",
+  "requestFramePermissions": []
+}
