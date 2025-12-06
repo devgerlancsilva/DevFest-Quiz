@@ -4,61 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DevFest Google Quiz</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Google Sans', 'sans-serif'],
-            },
-            colors: {
-              google: {
-                blue: '#4285F4',
-                red: '#EA4335',
-                yellow: '#FBBC04',
-                green: '#34A853',
-                dark: '#202124',
-                grey: '#5f6368'
-              }
-            },
-            keyframes: {
-              shake: {
-                '0%, 100%': { transform: 'translateX(0)' },
-                '25%': { transform: 'translateX(-5px)' },
-                '75%': { transform: 'translateX(5px)' },
-              }
-            },
-            animation: {
-              'bounce-short': 'bounce 1s infinite 1.5s',
-              'shake': 'shake 0.4s ease-in-out',
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      body {
-        background-color: #f8f9fa;
-      }
-      .gradient-text {
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "firebase/": "https://aistudiocdn.com/firebase@^12.6.0/"
-  }
-}
-</script>
 </head>
   <body>
     <div id="root"></div>
