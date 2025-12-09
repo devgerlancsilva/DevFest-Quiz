@@ -28,3 +28,7 @@ The easiest way to deploy this app is to use the [Vercel Platform](https://verce
 | `VITE_FIREBASE_MESSAGING_SENDER_ID` | Firebase Messaging Sender ID | - |
 | `VITE_FIREBASE_APP_ID` | Firebase App ID | - |
 | `GEMINI_API_KEY` | Your Gemini API Key (if used) | - |
+
+## Features
+
+- **High Score System**: The leaderboard stores the best score for each unique player name. If you play again and get a higher score, your entry on the leaderboard is updated.

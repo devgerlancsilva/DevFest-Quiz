@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, Unsubscribe } from "firebase/firestore";
+import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, Unsubscribe, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import { Player } from "../types";
 
 // --- CONFIGURATION ---
@@ -48,23 +48,53 @@ const notifyMockListeners = () => {
 export const savePlayerScore = async (player: Omit<Player, 'id'>) => {
   if (!USE_MOCK_FIREBASE && db) {
     try {
-      await addDoc(collection(db, "leaderboard"), {
-        ...player,
-        timestamp: Date.now()
-      });
+      const q = query(collection(db, "leaderboard"), where("name", "==", player.name));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        // Player exists, update if new score is higher
+        const docRef = querySnapshot.docs[0].ref;
+        const currentData = querySnapshot.docs[0].data();
+
+        if (player.score > currentData.score) {
+           await updateDoc(docRef, {
+             score: player.score,
+             tier: player.tier,
+             timestamp: Date.now()
+           });
+        }
+      } else {
+        // New player
+        await addDoc(collection(db, "leaderboard"), {
+          ...player,
+          timestamp: Date.now()
+        });
+      }
     } catch (e) {
-      console.error("Error adding document: ", e);
+      console.error("Error saving score: ", e);
     }
   } else {
     // Mock Save
-    // Simulate network delay then update and notify
     await new Promise(resolve => setTimeout(resolve, 500));
     
-    mockPlayers.push({ 
-      ...player, 
-      timestamp: Date.now(), 
-      id: Math.random().toString() 
-    });
+    const existingPlayerIndex = mockPlayers.findIndex(p => p.name === player.name);
+
+    if (existingPlayerIndex !== -1) {
+      if (player.score > mockPlayers[existingPlayerIndex].score) {
+        mockPlayers[existingPlayerIndex] = {
+          ...mockPlayers[existingPlayerIndex],
+          score: player.score,
+          tier: player.tier,
+          timestamp: Date.now()
+        };
+      }
+    } else {
+      mockPlayers.push({
+        ...player,
+        timestamp: Date.now(),
+        id: Math.random().toString()
+      });
+    }
     
     notifyMockListeners();
   }
